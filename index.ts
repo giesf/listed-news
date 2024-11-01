@@ -24,7 +24,7 @@ async function fetch() {
 
 
     Object.keys(feedURLByTopic).forEach(async (key) => {
-        console.log(`[CRONJOB]: Fetching feed ${key}...`)
+        console.log(`(${new Date().toLocaleString()})[CRONJOB]: Fetching feed ${key}...`)
         let feed = await parser.parseURL((feedURLByTopic as any)[key]);
 
         (feedContentByTopic as any)[key] = feed.items;
@@ -45,7 +45,9 @@ Bun.serve({
         const url = new URL(req.url)
         const query = url.searchParams
         const topic = query.get("topic") || "world"
-        console.log(`[REQ]: ${url.pathname}${url.search} ${this.requestIP(req)?.address}`)
+
+        const ip = req.headers.get("X-Forwarded-For") || this.requestIP(req)?.address || "NO-IP"
+        console.log(`(${new Date().toLocaleString()})[REQ]: ${url.pathname}${url.search} - ${ip} - ${req.referrer}`)
 
         assert(Object.keys(feedURLByTopic).includes(topic))
 
