@@ -1,0 +1,15 @@
+{
+  "name": "news",
+  "module": "index.ts",
+  "type": "module",
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "escape-html-template-tag": "^2.2.3",
+    "rss-parser": "^3.13.0"
+  }
+}
