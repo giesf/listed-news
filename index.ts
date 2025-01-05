@@ -22,16 +22,19 @@ let lastUpdate: Date | undefined;
 
 async function fetch() {
 
-
-    Object.keys(feedURLByTopic).forEach(async (key) => {
-        console.log(`(${new Date().toLocaleString()})[CRONJOB]: Fetching feed ${key}...`)
-        let feed = await parser.parseURL((feedURLByTopic as any)[key]);
-
-        (feedContentByTopic as any)[key] = feed.items;
-
-    })
-
-    lastUpdate = new Date();
+    try{
+        Object.keys(feedURLByTopic).forEach(async (key) => {
+            console.log(`(${new Date().toLocaleString()})[CRONJOB]: Fetching feed ${key}...`)
+            let feed = await parser.parseURL((feedURLByTopic as any)[key]);
+    
+            (feedContentByTopic as any)[key] = feed.items;
+    
+        })
+    
+        lastUpdate = new Date();
+    } catch(err) {
+        console.error(err);
+    }
 }
 
 const i = setInterval(() => {
